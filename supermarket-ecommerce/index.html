@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FreshMart | Supermarket & Grocery Express</title>
+  <meta name="description" content="Order fresh supermarket groceries online with 30-minute express delivery, barcode scanner, live aisle locator, nutrition facts, and daily flash deals." />
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Top Announcement Bar -->
+  <div class="announcement-bar">
+    <div class="container announcement-content">
+      <div class="ticker-item">
+        <i class="fa-solid fa-bolt text-warning"></i>
+        <span><strong>SUPERMARKET FLASH SALE:</strong> Up to 40% off Fresh Organic Produce! Use code <mark>FRESH20</mark> for extra 20% off.</span>
+      </div>
+      <div class="store-switcher">
+        <i class="fa-solid fa-location-dot"></i>
+        <span>Fulfillment:</span>
+        <select id="fulfillmentSelect" class="pill-select">
+          <option value="delivery">🚀 Express Home Delivery (30 Mins)</option>
+          <option value="pickup">🏪 Store Pickup - Store #104 (Aisle Lockers)</option>
+          <option value="curbside">🚗 Curbside Pickup (Bay 4)</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header Section -->
+  <header class="main-header">
+    <div class="container header-container">
+      
+      <!-- Brand Logo -->
+      <a href="#" class="brand-logo">
+        <div class="logo-icon">
+          <i class="fa-solid fa-basket-shopping"></i>
+        </div>
+        <div class="logo-text">
+          <span class="brand-name">Fresh<span>Mart</span></span>
+          <span class="brand-tagline">Supermarket Express</span>
+        </div>
+      </a>
+
+      <!-- Search Bar -->
+      <div class="search-wrapper">
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <input type="text" id="searchInput" placeholder="Search 5,000+ groceries, aisles, or dietary tags... (Press '/' to search)" />
+          <button id="clearSearchBtn" class="clear-btn hidden"><i class="fa-solid fa-xmark"></i></button>
+          <button class="voice-search-btn" id="voiceSearchBtn" title="Voice Search Simulation">
+            <i class="fa-solid fa-microphone"></i>
+          </button>
+        </div>
+        <div id="searchSuggestions" class="search-suggestions hidden"></div>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="header-actions">
+        <!-- Barcode Scanner Trigger -->
+        <button id="openScannerBtn" class="action-btn" title="Scan Barcode">
+          <i class="fa-solid fa-barcode"></i>
+          <span class="action-label">Scan Barcode</span>
+        </button>
+
+        <!-- Wishlist -->
+        <button id="wishlistBtn" class="action-btn" title="Saved Wishlist">
+          <div class="icon-badge-wrap">
+            <i class="fa-regular fa-heart"></i>
+            <span id="wishlistBadge" class="badge">0</span>
+          </div>
+          <span class="action-label">Saved</span>
+        </button>
+
+        <!-- Admin / Manager Toggle -->
+        <button id="toggleAdminBtn" class="action-btn admin-toggle" title="Store Manager Mode">
+          <i class="fa-solid fa-user-gear"></i>
+          <span class="action-label">Manager</span>
+        </button>
+
+        <!-- Cart Drawer Button -->
+        <button id="openCartBtn" class="action-btn cart-btn">
+          <div class="icon-badge-wrap">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span id="cartBadge" class="badge badge-cart">0</span>
+          </div>
+          <div class="cart-total-info">
+            <span class="cart-sublabel">Your Cart</span>
+            <span id="headerCartTotal" class="cart-price">$0.00</span>
+          </div>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Category Nav Pills Bar -->
+  <nav class="category-nav">
+    <div class="container category-scroll">
+      <button class="cat-pill active" data-category="all">
+        <i class="fa-solid fa-border-all"></i> All Products
+      </button>
+      <button class="cat-pill" data-category="deals">
+        <i class="fa-solid fa-fire text-danger"></i> Flash Deals 🔥
+      </button>
+      <button class="cat-pill" data-category="produce">
+        <i class="fa-solid fa-apple-whole"></i> Fresh Produce
+      </button>
+      <button class="cat-pill" data-category="dairy">
+        <i class="fa-solid fa-cheese"></i> Dairy & Eggs
+      </button>
+      <button class="cat-pill" data-category="bakery">
+        <i class="fa-solid fa-bread-slice"></i> Bakery & Deli
+      </button>
+      <button class="cat-pill" data-category="meat">
+        <i class="fa-solid fa-drumstick-bite"></i> Meat & Seafood
+      </button>
+      <button class="cat-pill" data-category="beverages">
+        <i class="fa-solid fa-bottle-water"></i> Beverages
+      </button>
+      <button class="cat-pill" data-category="snacks">
+        <i class="fa-solid fa-cookie"></i> Snacks & Sweets
+      </button>
+      <button class="cat-pill" data-category="frozen">
+        <i class="fa-solid fa-snowflake"></i> Frozen Foods
+      </button>
+      <button class="cat-pill" data-category="pantry">
+        <i class="fa-solid fa-jar"></i> Pantry Staples
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main App Layout -->
+  <main class="container main-content">
+
+    <!-- Hero Showcase Carousel / Banner -->
+    <section class="hero-banner">
+      <div class="hero-card">
+        <div class="hero-text">
+          <span class="hero-badge"><i class="fa-solid fa-clock"></i> Daily Supermarket Special</span>
+          <h1>Farm-Fresh Groceries Delivered in 30 Minutes</h1>
+          <p>Hand-picked organic fruits, artisan breads, farm fresh milk, and premium meats directly from our store aisles to your doorstep.</p>
+          <div class="hero-cta-group">
+            <button class="btn btn-primary" onclick="document.querySelector('[data-category=deals]').click()">
+              <i class="fa-solid fa-bag-shopping"></i> Shop Daily Deals
+            </button>
+            <button class="btn btn-outline-light" id="quickScanHeroBtn">
+              <i class="fa-solid fa-barcode"></i> Scan In-Store Item
+            </button>
+          </div>
+        </div>
+        <div class="hero-timer-box">
+          <span class="timer-title">Flash Sale Ends In:</span>
+          <div id="flashCountdown" class="countdown-timer">
+            <div class="time-block"><span id="hours">08</span><small>Hrs</small></div>
+            <span class="colon">:</span>
+            <div class="time-block"><span id="minutes">42</span><small>Min</small></div>
+            <span class="colon">:</span>
+            <div class="time-block"><span id="seconds">15</span><small>Sec</small></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Supermarket Highlights Bar -->
+    <section class="features-bar">
+      <div class="feature-item">
+        <div class="feature-icon"><i class="fa-solid fa-truck-fast"></i></div>
+        <div>
+          <h4>30-Min Express</h4>
+          <p>Free on orders over $35</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon"><i class="fa-solid fa-seedling"></i></div>
+        <div>
+          <h4>100% Fresh Guarantee</h4>
+          <p>Or instant full refund</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+        <div>
+          <h4>Aisle Navigation</h4>
+          <p>Exact store shelf locator</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon"><i class="fa-solid fa-coins"></i></div>
+        <div>
+          <h4>Supermarket Rewards</h4>
+          <p>Earn 5% cashback points</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Store Manager Controls Banner (Hidden by default, shown in Admin Mode) -->
+    <section id="adminBanner" class="admin-banner hidden">
+      <div class="admin-banner-content">
+        <div>
+          <i class="fa-solid fa-user-shield"></i>
+          <strong>STORE MANAGER CONTROL PANEL ACTIVE:</strong> You can edit stock, update prices, or add new store items in real-time.
+        </div>
+        <button id="addNewProductBtn" class="btn btn-warning btn-sm">
+          <i class="fa-solid fa-plus"></i> Add New Supermarket Item
+        </button>
+      </div>
+    </section>
+
+    <!-- Filter & Toolbar Controls -->
+    <div class="toolbar">
+      <!-- Dietary Filters -->
+      <div class="dietary-filters">
+        <span class="filter-label"><i class="fa-solid fa-filter"></i> Dietary:</span>
+        <button class="diet-chip active" data-diet="all">All</button>
+        <button class="diet-chip" data-diet="organic">🌱 Organic</button>
+        <button class="diet-chip" data-diet="vegan">🥦 Vegan</button>
+        <button class="diet-chip" data-diet="gluten-free">🌾 Gluten-Free</button>
+        <button class="diet-chip" data-diet="keto">🥑 Keto</button>
+      </div>
+
+      <!-- Sorting & Extra Controls -->
+      <div class="toolbar-controls">
+        <div class="stock-filter">
+          <label class="switch-label">
+            <input type="checkbox" id="inStockOnlyCheck" />
+            <span class="slider round"></span>
+            <span class="switch-text">In Stock Only</span>
+          </label>
+        </div>
+
+        <div class="sort-box">
+          <label for="sortSelect"><i class="fa-solid fa-arrow-down-short-wide"></i> Sort:</label>
+          <select id="sortSelect">
+            <option value="featured">Featured Supermarket Picks</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+            <option value="rating">Customer Rating</option>
+            <option value="aisle">Aisle Number</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Filters & Result Count Bar -->
+    <div class="results-header">
+      <h2 id="sectionTitle" class="section-title">All Supermarket Groceries</h2>
+      <span id="resultsCount" class="results-count">Showing 24 products</span>
+    </div>
+
+    <!-- Products Grid -->
+    <div id="productGrid" class="product-grid">
+      <!-- Dynamic Javascript Content -->
+    </div>
+
+    <!-- Empty State Container -->
+    <div id="noResultsState" class="empty-state hidden">
+      <div class="empty-icon"><i class="fa-solid fa-magnifying-glass-box"></i></div>
+      <h3>No Supermarket Items Found</h3>
+      <p>Try adjusting your search keywords, clearing dietary filters, or exploring another aisle category.</p>
+      <button id="resetFiltersBtn" class="btn btn-primary mt-3">Reset All Filters</button>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="container footer-grid">
+      <div class="footer-col">
+        <div class="brand-logo mb-3">
+          <div class="logo-icon"><i class="fa-solid fa-basket-shopping"></i></div>
+          <div class="logo-text">
+            <span class="brand-name">Fresh<span>Mart</span></span>
+            <span class="brand-tagline">Supermarket Express</span>
+          </div>
+        </div>
+        <p>Your neighborhood supermarket reimagined. Fast, fresh, and local groceries delivered right from store aisles to your doorstep.</p>
+        <div class="social-links">
+          <a href="#"><i class="fa-brands fa-facebook"></i></a>
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-twitter"></i></a>
+          <a href="#"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Supermarket Aisles</h4>
+        <ul>
+          <li><a href="#" onclick="filterByCat('produce')">Fresh Fruits & Vegetables</a></li>
+          <li><a href="#" onclick="filterByCat('dairy')">Dairy, Cheese & Eggs</a></li>
+          <li><a href="#" onclick="filterByCat('bakery')">Artisanal Bakery & Deli</a></li>
+          <li><a href="#" onclick="filterByCat('meat')">Fresh Meat & Seafood</a></li>
+          <li><a href="#" onclick="filterByCat('beverages')">Organic Drinks & Juices</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Customer Care</h4>
+        <ul>
+          <li><a href="#">Track Express Delivery</a></li>
+          <li><a href="#">In-Store Pickup Lockers</a></li>
+          <li><a href="#">Quality & Freshness Policy</a></li>
+          <li><a href="#">Supermarket Rewards Card</a></li>
+          <li><a href="#">Aisle Map & Store Hours</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Store Hours & Contact</h4>
+        <p><i class="fa-solid fa-clock"></i> Open Daily: 6:00 AM - 11:00 PM</p>
+        <p><i class="fa-solid fa-phone"></i> Hotline: 1-800-FRESH-MART</p>
+        <p><i class="fa-solid fa-envelope"></i> support@freshmart-groceries.com</p>
+        <div class="app-badges mt-3">
+          <span class="badge-app"><i class="fa-brands fa-apple"></i> App Store</span>
+          <span class="badge-app"><i class="fa-brands fa-google-play"></i> Google Play</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container footer-bottom-content">
+        <p>&copy; 2026 FreshMart Supermarket Express Inc. All rights reserved.</p>
+        <div class="payment-icons">
+          <i class="fa-brands fa-cc-visa"></i>
+          <i class="fa-brands fa-cc-mastercard"></i>
+          <i class="fa-brands fa-cc-apple-pay"></i>
+          <i class="fa-brands fa-google-pay"></i>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= MODALS & DRAWERS ================= -->
+
+  <!-- Cart Slide-over Drawer -->
+  <div id="cartOverlay" class="drawer-overlay hidden"></div>
+  <aside id="cartDrawer" class="cart-drawer hidden">
+    <div class="drawer-header">
+      <div class="drawer-title">
+        <i class="fa-solid fa-basket-shopping"></i>
+        <h3>Supermarket Basket (<span id="cartCountTitle">0</span> items)</h3>
+      </div>
+      <button id="closeCartBtn" class="close-drawer-btn"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <!-- Fulfillment Reminder Banner -->
+    <div class="cart-fulfillment-banner">
+      <i class="fa-solid fa-circle-check text-success"></i>
+      <span id="cartFulfillmentText">Fulfillment: Express 30-Min Home Delivery</span>
+    </div>
+
+    <!-- Cart Items List -->
+    <div id="cartItemsList" class="cart-items-body">
+      <!-- Dynamic JS cart items -->
+    </div>
+
+    <!-- Cart Summary & Checkout Footer -->
+    <div id="cartFooter" class="cart-footer">
+      
+      <!-- Eco Bag Selection -->
+      <div class="bag-options-box">
+        <label class="option-title"><i class="fa-solid fa-bag-shopping"></i> Packaging Option:</label>
+        <select id="bagOptionSelect">
+          <option value="eco">🌿 Eco-Friendly Paper Bag (+$0.15)</option>
+          <option value="thermal">❄️ Insulated Chilled Bag for Frozen Goods (+$0.99)</option>
+          <option value="own">👜 Bring My Own Bag ($0.00)</option>
+        </select>
+      </div>
+
+      <!-- Coupon Promo Code -->
+      <div class="coupon-box">
+        <div class="coupon-input-group">
+          <i class="fa-solid fa-ticket"></i>
+          <input type="text" id="couponInput" placeholder="Promo Code (e.g. FRESH20)" />
+          <button id="applyCouponBtn" class="btn btn-dark btn-sm">Apply</button>
+        </div>
+        <div id="couponMessage" class="coupon-msg hidden"></div>
+      </div>
+
+      <!-- Financial Calculation breakdown -->
+      <div class="cart-calc">
+        <div class="calc-row">
+          <span>Subtotal</span>
+          <span id="cartSubtotal">$0.00</span>
+        </div>
+        <div id="savingsRow" class="calc-row text-success hidden">
+          <span><i class="fa-solid fa-tag"></i> Total Savings</span>
+          <span id="cartSavings">-$0.00</span>
+        </div>
+        <div class="calc-row">
+          <span>Estimated Tax (8%)</span>
+          <span id="cartTax">$0.00</span>
+        </div>
+        <div class="calc-row">
+          <span>Packaging Bag</span>
+          <span id="cartBagFee">$0.15</span>
+        </div>
+        <div class="calc-row">
+          <span>Delivery / Locker Fee</span>
+          <span id="cartDeliveryFee">$2.99</span>
+        </div>
+        <div class="calc-row total-row">
+          <span>Estimated Total</span>
+          <span id="cartTotalFinal">$0.00</span>
+        </div>
+      </div>
+
+      <button id="proceedCheckoutBtn" class="btn btn-primary btn-block btn-lg">
+        Proceed to Express Checkout <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Barcode Scanner Simulation Modal -->
+  <div id="scannerModal" class="modal-overlay hidden">
+    <div class="modal-card scanner-modal">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-barcode"></i> In-Store Barcode Scanner</h3>
+        <button class="close-modal-btn" onclick="closeModal('scannerModal')"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="scanner-viewport">
+          <div class="scanner-laser-line"></div>
+          <div class="scanner-frame">
+            <i class="fa-solid fa-camera scanner-cam-icon"></i>
+            <p>Point camera or barcode reader at item label...</p>
+          </div>
+        </div>
+
+        <div class="scanner-manual-input">
+          <label>Or simulated quick-scan product selection:</label>
+          <div class="scanner-quick-select">
+            <button class="scan-sample-btn" data-sku="8901001">🍌 Organic Bananas (8901001)</button>
+            <button class="scan-sample-btn" data-sku="8901002">🥛 Farm Whole Milk (8901002)</button>
+            <button class="scan-sample-btn" data-sku="8901003">🥖 Artisan Sourdough (8901003)</button>
+            <button class="scan-sample-btn" data-sku="8901004">🥩 Ribeye Steak (8901004)</button>
+          </div>
+          <div class="input-with-button mt-3">
+            <input type="text" id="manualBarcodeSKU" placeholder="Enter SKU / Barcode Number (e.g. 8901005)" />
+            <button id="triggerScanBtn" class="btn btn-success"><i class="fa-solid fa-bolt"></i> Scan Item</button>
+          </div>
+        </div>
+        <div id="scanResultAlert" class="alert alert-success hidden mt-3"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Detail & FDA Nutrition Label Modal -->
+  <div id="productDetailModal" class="modal-overlay hidden">
+    <div class="modal-card product-detail-modal">
+      <button class="close-modal-btn detail-close" onclick="closeModal('productDetailModal')"><i class="fa-solid fa-xmark"></i></button>
+      <div id="productDetailContent" class="product-detail-layout">
+        <!-- Rendered dynamically via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Express Checkout Modal -->
+  <div id="checkoutModal" class="modal-overlay hidden">
+    <div class="modal-card checkout-modal">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-credit-card"></i> Express Supermarket Checkout</h3>
+        <button class="close-modal-btn" onclick="closeModal('checkoutModal')"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <form id="checkoutForm" onsubmit="handleCheckoutSubmit(event)">
+          <div class="checkout-grid">
+            
+            <!-- Step 1: Customer & Fulfillment Info -->
+            <div class="checkout-col">
+              <h4>1. Customer Details</h4>
+              <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" required id="custName" placeholder="e.g. Jane Doe" value="Anish Kumar" />
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Email Address</label>
+                  <input type="email" required id="custEmail" placeholder="jane@example.com" value="anish@supermarket.com" />
+                </div>
+                <div class="form-group">
+                  <label>Mobile Number</label>
+                  <input type="tel" required id="custPhone" placeholder="(555) 000-1234" value="+1 (555) 392-8101" />
+                </div>
+              </div>
+
+              <h4>2. Delivery Address / Store Pickup Locker</h4>
+              <div class="form-group">
+                <label>Street Address or Store Pickup Spot</label>
+                <input type="text" required id="custAddress" placeholder="123 Supermarket Blvd, Apt 4B" value="742 Evergreen Terrace, Sector 4" />
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Preferred Delivery Time Slot</label>
+                  <select id="deliverySlot">
+                    <option>⚡ Express Today (Within 30 Mins)</option>
+                    <option>Today: 2:00 PM - 4:00 PM</option>
+                    <option>Today: 6:00 PM - 8:00 PM</option>
+                    <option>Tomorrow Morning: 8:00 AM - 10:00 AM</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 2: Payment Method & Tip -->
+            <div class="checkout-col">
+              <h4>3. Payment Method</h4>
+              <div class="payment-method-selector">
+                <label class="pay-option active">
+                  <input type="radio" name="payMethod" value="card" checked />
+                  <i class="fa-solid fa-credit-card"></i> Credit / Debit Card
+                </label>
+                <label class="pay-option">
+                  <input type="radio" name="payMethod" value="apple" />
+                  <i class="fa-brands fa-apple"></i> Apple / Google Pay
+                </label>
+                <label class="pay-option">
+                  <input type="radio" name="payMethod" value="points" />
+                  <i class="fa-solid fa-coins"></i> Supermarket Rewards Points
+                </label>
+                <label class="pay-option">
+                  <input type="radio" name="payMethod" value="cod" />
+                  <i class="fa-solid fa-hand-holding-dollar"></i> Pay on Delivery
+                </label>
+              </div>
+
+              <div id="cardFields" class="card-fields">
+                <div class="form-group">
+                  <label>Card Number</label>
+                  <input type="text" placeholder="4532 •••• •••• 8892" value="4532 8920 1102 8892" />
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Expiry Date</label>
+                    <input type="text" placeholder="MM/YY" value="09/28" />
+                  </div>
+                  <div class="form-group">
+                    <label>CVV</label>
+                    <input type="text" placeholder="123" value="382" />
+                  </div>
+                </div>
+              </div>
+
+              <h4>4. Courier Driver Tip</h4>
+              <div class="tip-buttons">
+                <button type="button" class="tip-btn" data-tip="2">$2</button>
+                <button type="button" class="tip-btn active" data-tip="3">$3</button>
+                <button type="button" class="tip-btn" data-tip="5">$5</button>
+                <button type="button" class="tip-btn" data-tip="0">No Tip</button>
+              </div>
+
+              <!-- Final Summary Box -->
+              <div class="checkout-summary-box mt-3">
+                <div class="summary-line"><span>Order Total:</span> <strong id="checkoutTotalVal">$0.00</strong></div>
+                <p class="small text-muted"><i class="fa-solid fa-shield-halved"></i> 256-Bit SSL Encrypted & 100% Freshness Guarantee</p>
+              </div>
+
+              <button type="submit" id="placeOrderBtn" class="btn btn-success btn-block btn-lg mt-3">
+                <i class="fa-solid fa-check-circle"></i> Place Order Now
+              </button>
+            </div>
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Digital Receipt & Order Confirmation Modal -->
+  <div id="receiptModal" class="modal-overlay hidden">
+    <div class="modal-card receipt-modal">
+      <div class="receipt-paper" id="printableReceipt">
+        
+        <div class="receipt-header">
+          <div class="receipt-logo"><i class="fa-solid fa-basket-shopping"></i> FRESHMART</div>
+          <h2>STORE #104 DIGITAL RECEIPT</h2>
+          <p>777 Supermarket Boulevard, Metro City</p>
+          <p>Tel: (800) 555-FRESH | Reg #04</p>
+          <div class="receipt-divider">================================</div>
+          <div class="receipt-meta">
+            <div>Order ID: <strong id="recOrderId">#FM-89201</strong></div>
+            <div>Date: <span id="recDate">2026-09-09 10:30</span></div>
+            <div>Customer: <span id="recCustName">Jane Doe</span></div>
+            <div>Mode: <span id="recMode">Express Delivery</span></div>
+          </div>
+          <div class="receipt-divider">================================</div>
+        </div>
+
+        <!-- Receipt Table -->
+        <table class="receipt-table">
+          <thead>
+            <tr>
+              <th>QTY</th>
+              <th>ITEM DESCRIPTION</th>
+              <th class="text-right">AMOUNT</th>
+            </tr>
+          </thead>
+          <tbody id="receiptTableBody">
+            <!-- Dynamic Receipt Items -->
+          </tbody>
+        </table>
+
+        <div class="receipt-divider">--------------------------------</div>
+
+        <div class="receipt-totals">
+          <div class="r-row"><span>SUBTOTAL:</span><span id="recSubtotal">$0.00</span></div>
+          <div class="r-row text-success"><span>DISCOUNT SAVINGS:</span><span id="recSavings">-$0.00</span></div>
+          <div class="r-row"><span>TAX (8%):</span><span id="recTax">$0.00</span></div>
+          <div class="r-row"><span>PACKAGING & FEE:</span><span id="recFee">$0.00</span></div>
+          <div class="receipt-divider">--------------------------------</div>
+          <div class="r-row r-grand-total"><span>TOTAL PAID:</span><span id="recTotal">$0.00</span></div>
+        </div>
+
+        <!-- Simulated Barcode & QR code on Receipt -->
+        <div class="receipt-barcode-box">
+          <div class="fake-barcode">||| | ||||| || | |||| |||| ||| |||| | ||</div>
+          <span class="barcode-num" id="recBarcodeSKU">892019482019</span>
+          <p class="pickup-pass-text"><i class="fa-solid fa-qrcode"></i> Scan this pass at store locker #04 for instant pickup</p>
+        </div>
+
+        <div class="receipt-footer-msg">
+          <p>Thank you for shopping at FreshMart Supermarket!</p>
+          <p>🌟 You earned <strong>140 Loyalty Points</strong> on this visit.</p>
+        </div>
+
+      </div>
+
+      <div class="receipt-actions">
+        <button class="btn btn-outline-dark" onclick="window.print()"><i class="fa-solid fa-print"></i> Print Receipt</button>
+        <button class="btn btn-primary" onclick="closeModal('receiptModal'); resetAppAfterOrder();"><i class="fa-solid fa-house"></i> Back to Supermarket</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Store Manager Add Product Modal -->
+  <div id="addProductModal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-plus-circle"></i> Add Supermarket Product (Manager Mode)</h3>
+        <button class="close-modal-btn" onclick="closeModal('addProductModal')"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <form id="addProductForm" onsubmit="handleAddNewProduct(event)">
+          <div class="form-group">
+            <label>Product Name</label>
+            <input type="text" id="newProdName" required placeholder="e.g. Organic Avocados 4-Pack" />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Category</label>
+              <select id="newProdCat">
+                <option value="produce">Fresh Produce</option>
+                <option value="dairy">Dairy & Eggs</option>
+                <option value="bakery">Bakery & Deli</option>
+                <option value="meat">Meat & Seafood</option>
+                <option value="beverages">Beverages</option>
+                <option value="snacks">Snacks & Sweets</option>
+                <option value="frozen">Frozen Foods</option>
+                <option value="pantry">Pantry Staples</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>SKU / Barcode #</label>
+              <input type="text" id="newProdSKU" required placeholder="8901999" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Price ($)</label>
+              <input type="number" step="0.01" id="newProdPrice" required placeholder="4.99" />
+            </div>
+            <div class="form-group">
+              <label>Unit Label</label>
+              <input type="text" id="newProdUnit" required placeholder="per bag / each / lb" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Aisle Location</label>
+              <input type="text" id="newProdAisle" required placeholder="Aisle 4 - Organic" />
+            </div>
+            <div class="form-group">
+              <label>Stock Count</label>
+              <input type="number" id="newProdStock" required value="25" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Image URL</label>
+            <input type="url" id="newProdImg" required placeholder="https://images.unsplash.com/photo-..." value="https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?w=500&auto=format&fit=crop" />
+          </div>
+          <button type="submit" class="btn btn-warning btn-block mt-3"><i class="fa-solid fa-save"></i> Save & Add to Supermarket Catalog</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
