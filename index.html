@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FreshMart - Online Grocery Store</title>
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <header>
+        <div class="logo">FreshMart</div>
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Search products..."
+        >
+
+        <button onclick="openCart()">
+            🛒 Cart (<span id="cartCount">0</span>)
+        </button>
+    </header>
+
+
+    <!-- Categories -->
+    <nav class="categories">
+        <button onclick="filterProducts('all')">All</button>
+        <button onclick="filterProducts('produce')">Produce</button>
+        <button onclick="filterProducts('dairy')">Dairy</button>
+        <button onclick="filterProducts('bakery')">Bakery</button>
+        <button onclick="filterProducts('meat')">Meat</button>
+        <button onclick="filterProducts('beverages')">Beverages</button>
+        <button onclick="filterProducts('snacks')">Snacks</button>
+    </nav>
+
+
+    <!-- Hero -->
+    <section class="hero">
+        <h1>Fresh Groceries Delivered</h1>
+        <p>Shop fresh and quality products online.</p>
+
+        <button onclick="filterProducts('all')">
+            Shop Now
+        </button>
+    </section>
+
+
+    <!-- Products -->
+    <main>
+
+        <h2>Our Products</h2>
+
+        <div id="productGrid" class="product-grid"></div>
+
+    </main>
+
+
+    <!-- Cart -->
+    <div id="cartBox" class="cart-box">
+
+        <div class="cart-header">
+            <h2>Shopping Cart</h2>
+
+            <button onclick="closeCart()">✕</button>
+        </div>
+
+        <div id="cartItems"></div>
+
+        <div class="cart-total">
+            <h3>
+                Total:
+                $<span id="cartTotal">0.00</span>
+            </h3>
+
+            <button class="checkout-btn" onclick="checkout()">
+                Checkout
+            </button>
+        </div>
+
+    </div>
+
+
+    <script src="app.js"></script>
+
+</body>
+</html>
